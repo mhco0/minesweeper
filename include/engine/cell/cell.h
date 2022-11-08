@@ -19,6 +19,7 @@ protected:
     bool m_clicked;
     cell_type m_type;
 public:
+
     /**
      * @brief A simple constructor for a cell
      * @param ct The type of the cell
