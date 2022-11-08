@@ -8,7 +8,7 @@ grid::grid(const int& width, const int height){
     this->m_height = height;
     this->m_cells_sz = width * height;   
     this->m_cells = nullptr;
-    this->m_boombs = 0;
+    this->m_bombs = 0;
     this->m_started = false;
 
     if(!this->m_width or !this->m_height) return;
@@ -22,8 +22,8 @@ grid::~grid(){
     }
 }
 
-void grid::set_boombs(const int& boombs){
-    this->m_boombs = boombs;
+void grid::set_boombs(const int& bombs){
+    this->m_bombs = bombs;
 }
 
 void grid::init(const grid_click_t& initial_click){
@@ -32,7 +32,10 @@ void grid::init(const grid_click_t& initial_click){
 
     if(this->m_started) return;
 
-    // checks if it was a mark type here
+    // saves initial click as safe spot
+    // randomize bombs into grid position
+    // process each cell on grid based on bomb already defined positions
+    // if the click is a empty cell expand the grid view (mark cells as clicked)
 
     this->m_started = true;
 }
@@ -49,9 +52,10 @@ void grid::process(const grid_click_t& click){
 
     if(click.mark){
         // just mark the cell
+        if(this->m_cells[index].marked()) // add here the possibility of unmark the cell
+        else this->m_cells[index].mark();
     }else{
         this->m_cells[index].click();
-
         // expands grid here
     }
 

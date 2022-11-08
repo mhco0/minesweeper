@@ -36,7 +36,7 @@ protected:
     int m_width;
     size_t m_cells_sz;
     cell* m_cells;
-    int m_boombs;
+    int m_bombs;
     bool m_started;
 public:
 
@@ -54,9 +54,9 @@ public:
 
     /**
      * @brief A member function to set the number of cells on the grid
-     * @param boombs The number of boombs
+     * @param bombs The number of bombs
     */
-    void set_bombs(const int& boombs);
+    void set_bombs(const int& bombs);
 
     /**
      * @brief A member function to starts the click on the grid
