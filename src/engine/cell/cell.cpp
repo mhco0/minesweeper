@@ -22,8 +22,12 @@ void cell::mark(){
     this->m_marked = true;
 }
 
-void cell::set_bombs(const int& bombs){
-    if(this->m_type == cell_type::BOMB){
+void cell::unmark(){
+    this->m_marked = false;
+}
+
+void cell::set_bombs_next(const int& bombs){
+    if(this->m_type == cell_type::NUMERED){
         this->m_bombs_next = bombs;
     }
 }
@@ -38,6 +42,14 @@ bool cell::marked(){
 
 bool cell::clicked(){
     return this->m_clicked;
+}
+
+void cell::set_type(const cell_type& type){
+    this->m_type = type;
+}
+
+cell_type cell::type(){
+    return this->m_type;
 }
 
 }

@@ -51,9 +51,14 @@ public:
     void mark();
 
     /**
+     * @brief A method to unmark the cell 
+    */
+    void unmark();
+
+    /**
      * @brief A method to set the bombs next to this cell
     */
-    void set_bombs(const int& bombs);
+    void set_bombs_next(const int& bombs);
 
     /**
      * @brief A method to get the number of bombs next to this cell
@@ -71,6 +76,18 @@ public:
      * @return True if the cell was marked and false otherwise
     */
     bool marked();
+
+    /**
+     * @brief A method to set the type of this cell
+     * @param type The new type of the cell
+    */
+    void set_type(const cell_type& type);
+
+    /**
+     * @brief A method to get the type of this cell
+     * @return The cell_type of the cell
+    */
+    cell_type type();
 };
 
 }
