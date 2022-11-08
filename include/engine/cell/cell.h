@@ -4,21 +4,35 @@
 namespace minesweeper{
 
 /**
+ * @enum cell_type
  * @brief A simple enum to describle the cell type
+ * @details Each cell has a unique type that depends on it initialization.
+ * A cell can be empty if has no bombs attach to it. It can be a numbered cell
+ * if it has some bomb in a cell adjacent to it. It can be a bomb cell if the cell
+ * have a bomb attach to it. 
 */
 enum class cell_type {
-    EMPTY_CELL = 0,
+    EMPTY = 0,
+    NUMBERED,
     BOMB,
 };
 
 /**
+ * @class cell
  * @brief A simple class to represent a cell on the minesweeper grid 
 */
 class cell{
 protected:
     bool m_clicked;
+    bool m_marked;
+    int m_bombs_next;
     cell_type m_type;
 public:
+
+    /**
+     * @brief The default constructor for a cell. By default a cell is considered as empty.
+    */
+    cell();
 
     /**
      * @brief A simple constructor for a cell
@@ -32,9 +46,31 @@ public:
     void click();
 
     /**
+     * @brief A method to mark the cell with some flag
+    */
+    void mark();
+
+    /**
+     * @brief A method to set the bombs next to this cell
+    */
+    void set_bombs(const int& bombs);
+
+    /**
+     * @brief A method to get the number of bombs next to this cell
+    */
+    int get_bombs_next();
+
+    /**
      * @brief A method to check if the cell was clicked or not
+     * @return True if the cell was clicked and false otherwise
     */
     bool clicked();
+
+    /**
+     * @brief A method to check if the cell was marked or not
+     * @return True if the cell was marked and false otherwise
+    */
+    bool marked();
 };
 
 }
