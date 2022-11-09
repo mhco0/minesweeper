@@ -1,9 +1,56 @@
 #include <engine/grid.h>
 #include <algorithm>
+#include <queue>
+#include <pair>
 #include <random>
 #include <assert.h> // or <cassert>
 
 namespace minesweeper{
+
+void grid::expand(const int& x, const int& y){
+    std::queue<std::pair<int, int>> to_visit;
+
+    to_visit.push({x, y});
+
+    while(not to_visit.empty()){
+        std::pair<int, int> cell_pos = to_visit.front();
+        to_visit.pop();
+
+        int neighboards[6] = {
+            (cell_pos.first - 1) * this->m_width + cell_pos.second,
+            cell_pos.first * this->m_width + (cell_pos.second - 1),
+            (cell_pos.first + 1) * this->m_width + cell_pos.second,
+            cell_pos.first * this->m_width + (cell_pos.second + 1),
+            (cell_pos.first - 1) * this->m_width + (cell_pos.second - 1),
+            (cell_pos.first - 1) * this->m_width + (cell_pos.second + 1),
+            (cell_pos.first + 1) * this->m_width + (cell_pos.second - 1),
+            (cell_pos.first + 1) * this->m_width + (cell_pos.second + 1),
+        };
+
+        std::pair<int, int> neighboards_pos[6] = {
+            {(cell_pos.first - 1) , cell_pos.second},
+            {cell_pos.first , (cell_pos.second - 1)},
+            {(cell_pos.first + 1) , cell_pos.second},
+            {cell_pos.first , (cell_pos.second + 1)},
+            {(cell_pos.first - 1) , (cell_pos.second - 1)},
+            {(cell_pos.first - 1) , (cell_pos.second + 1)},
+            {(cell_pos.first + 1) , (cell_pos.second - 1)},
+            {(cell_pos.first + 1) , (cell_pos.second + 1)},
+        }
+
+        for(short i = 0; i < 6; i++){
+            if(neighboards[i] < 0 or neighboards[i] >= this->m_cells_sz) continue;
+            
+            if(this->m_cells[neighboards[i]].type() == cell_type::EMPTY or this->m_cells[neighboards[i]].type() == cell_type::NUMERED){
+                this->m_cells[neighboards[i]].click();
+
+                if(this->m_cells[neighboards[i]].type() == cell_type::EMPTY) to_visit.push(neighboards_pos[i]);
+            }
+        }
+    }
+
+    return;
+}
 
 grid::grid(const int& width, const int height){
     this->m_width = width;
@@ -124,8 +171,8 @@ void grid::init(const grid_click_t& initial_click){
 }
 
 void grid::process(const grid_click_t& click){
-    assert(initial_click.x < this->m_width and initial_click.x >= 0);
-    assert(initial_click.y < this->m_height and initial_click.y >= 0);
+    assert(click.x < this->m_width and click.x >= 0);
+    assert(click.y < this->m_height and click.y >= 0);
 
     if(!this->m_started){
         this->init(click);
@@ -136,12 +183,17 @@ void grid::process(const grid_click_t& click){
 
     if(click.mark){
         // just mark the cell
-        if(this->m_cells[index].marked()) // add here the possibility of unmark the cell
+        if(this->m_cells[index].marked()) this->m_cells[index].unmark();
         else this->m_cells[index].mark();
     }else{
-        if (not this->m_cells[index].marked()) this->m_cells[index].click();
-        // expands grid here
-
+        if (not this->m_cells[index].marked()){
+            this->m_cells[index].click();
+        
+            // expands grid here
+            if(this->m_cells[index].type() == cell_type::EMPTY){
+                expand(click.x, click.y);
+            }
+        }
     }
 
     return;

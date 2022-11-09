@@ -38,6 +38,14 @@ protected:
     cell* m_cells;
     int m_bombs;
     bool m_started;
+
+    /**
+     * @brief A method to expand the grid from a empty cell located in the @p x and @p y positions of the grid
+     * @param x The x coordenate for the empty cell
+     * @param y The y coordenate for the empty cell
+    */
+    void expand(const int& x, const int& y);
+
 public:
 
     /**
