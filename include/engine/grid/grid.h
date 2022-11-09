@@ -2,7 +2,7 @@
 #define __GRID_H__ 1
 #include "../cell/cell.h"
 
-namespace minesweeper{
+namespace minesweeper {
 
 /**
  * @struct grid_click_t
@@ -12,7 +12,7 @@ namespace minesweeper{
  * All values are intergers and 0-index based. The struct can handle if the user use his click just to 
  * mark a cell, this detail is covered by the mark member on the struct.
 */
-struct grid_click_t{
+struct grid_click_t {
     int x, y;
     bool mark = false;
 };
@@ -26,7 +26,7 @@ struct grid_click_t{
  * @see init(const grid_click_t&)
  * @see process(const grid_click_t&)
 */
-class grid{
+class grid {
 private:
     grid(const grid& other); ///< Copy constructor is private to not have to handle with memory leak
     grid& operator=(); ///< Assign operator is private to not have to handle with memory leak

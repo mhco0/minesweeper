@@ -1,7 +1,7 @@
 #ifndef __CELL_H__
 #define __CELL_H__ 1
 
-namespace minesweeper{
+namespace minesweeper {
 
 /**
  * @enum cell_type
@@ -21,7 +21,7 @@ enum class cell_type {
  * @class cell
  * @brief A simple class to represent a cell on the minesweeper grid 
 */
-class cell{
+class cell {
 protected:
     bool m_clicked;
     bool m_marked;
