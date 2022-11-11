@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <queue>
 #include <utility> // std::pair
-#include <random>
 #include <assert.h> // or <cassert>
+//#include <initializer_list>
 
 namespace minesweeper {
 
@@ -42,13 +42,32 @@ void grid::expand(const int& x, const int& y){
             if(neighboards[i] < 0 || neighboards[i] >= this->m_cells_sz){
                 continue;
             }
+
+
+            if(cell_pos.first == 0 && neighboards_pos[i].first == -1){
+                continue;
+            }
+
+            if(cell_pos.second == 0 && neighboards_pos[i].second == -1){
+                continue;
+            }
+
+            if((cell_pos.first == this->m_height - 1) && neighboards_pos[i].first == this->m_height){
+                continue;
+            }
+
+            if((cell_pos.second == this->m_width - 1) && neighboards_pos[i].second == this->m_width){
+                continue;
+            }
             
             if(this->m_cells[neighboards[i]].type() == cell_type::EMPTY || this->m_cells[neighboards[i]].type() == cell_type::NUMBERED){
-                this->m_cells[neighboards[i]].click();
+                if(!this->m_cells[neighboards[i]].clicked()){
+                    this->m_cells[neighboards[i]].click();
 
-                if(this->m_cells[neighboards[i]].type() == cell_type::EMPTY){
-                    to_visit.push(neighboards_pos[i]);
-                } 
+                    if(this->m_cells[neighboards[i]].type() == cell_type::EMPTY){
+                        to_visit.push(neighboards_pos[i]);
+                    }
+                }   
             }
         }
     }
@@ -61,6 +80,7 @@ grid::grid(const int& width, const int& height){
     this->m_height = height;
     this->m_cells_sz = width * height;   
     this->m_cells = nullptr;
+    this->m_seed = nullptr;
     this->m_bombs = 0;
     this->m_started = false;
 
@@ -74,6 +94,10 @@ grid::grid(const int& width, const int& height){
 grid::~grid(){
     if(this->m_cells){
         delete[] this->m_cells;
+    }
+
+    if(this->m_seed){
+        delete this->m_seed;
     }
 }
 
@@ -94,8 +118,14 @@ void grid::init(const grid_click_t& initial_click){
 
     // randomize bombs into grid position
     std::random_device dev;
-    std::seed_seq seed {dev(), dev(), dev(), dev(), dev(), dev(), dev(), dev()};
-    std::mt19937 eng(seed);
+    //2709229200 2556021170 984546957 2890258580 851302012 3691948545 1417325984 3822255598
+    this->m_seed = new std::seed_seq{dev(), dev(), dev(), dev(), dev(), dev(), dev(), dev()};
+    //std::initializer_list<uint32_t> l = {2709229200, 2556021170, 984546957, 2890258580, 851302012, 3691948545, 1417325984, 3822255598};
+    //this->m_seed = new std::seed_seq(l);
+    //std::ostream_iterator<unsigned> out (std::cout," ");
+    //this->m_seed->param(out);
+    std::cout << std::endl;
+    std::mt19937 eng(*this->m_seed);
 
     int* cells_index = new int[this->m_cells_sz - 1]();
     
@@ -134,8 +164,8 @@ void grid::init(const grid_click_t& initial_click){
         array index positions. 
     */
 
-    for(size_t i = 0; i < this->m_height; i++){
-        for(size_t j = 0; j < this->m_width; j++){
+    for(int i = 0; i < this->m_height; i++){
+        for(int j = 0; j < this->m_width; j++){
             size_t cell_index = i * this->m_width + j;
 
             if(this->m_cells[cell_index].type() == cell_type::BOMB){
@@ -153,14 +183,41 @@ void grid::init(const grid_click_t& initial_click){
                     (i + 1) * this->m_width + (j + 1),
                 };
 
+                std::pair<int, int> neighboards_pos[8] = {
+                    {(i - 1) , j},
+                    {i , (j - 1)},
+                    {(i + 1) , j},
+                    {i , (j + 1)},
+                    {(i - 1) , (j - 1)},
+                    {(i - 1) , (j + 1)},
+                    {(i + 1) , (j - 1)},
+                    {(i + 1) , (j + 1)},
+                };
+
                 int bombs_next = 0;
 
-                for(short i = 0; i < 8; i++){
-                    if(neighboards[i] < 0 || neighboards[i] >= this->m_cells_sz){
+                for(short z = 0; z < 8; z++){
+                    if(neighboards[z] < 0 || neighboards[z] >= this->m_cells_sz){
+                        continue;
+                    }
+
+                    if(i == 0 && neighboards_pos[z].first == -1){
+                        continue;
+                    }
+
+                    if(j == 0 && neighboards_pos[z].second == -1){
+                        continue;
+                    }
+
+                    if((i == this->m_height - 1) && neighboards_pos[z].first == this->m_height){
+                        continue;
+                    }
+
+                    if((j == this->m_width - 1) && neighboards_pos[z].second == this->m_width){
                         continue;
                     }
                     
-                    if(this->m_cells[neighboards[i]].type() == cell_type::BOMB){
+                    if(this->m_cells[neighboards[z]].type() == cell_type::BOMB){
                         bombs_next++;
                     }
                 }
@@ -215,10 +272,18 @@ void grid::process(const grid_click_t& click){
     return;
 }
 
-}
+std::ostream& operator<<(std::ostream& os, grid& gd){
 
-std::ostream& operator<<(std::ostream& os, const minesweeper::grid& gd){
-
+    for(size_t i = 0; i < gd.m_height; i++){
+        for(size_t j = 0; j < gd.m_height; j++){
+            size_t cell_index = i * gd.m_width + j;
+            os << gd.m_cells[cell_index];
+        }
+        os << '\n';
+    }
     
     return os;
 } 
+
+}
+

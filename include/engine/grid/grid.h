@@ -2,6 +2,7 @@
 #define __GRID_H__ 1
 #include "../cell/cell.h"
 #include <iostream>
+#include <random>
 
 namespace minesweeper {
 
@@ -38,6 +39,7 @@ protected:
     size_t m_cells_sz;
     cell* m_cells;
     int m_bombs;
+    std::seed_seq* m_seed;
     bool m_started;
 
     /**
@@ -86,7 +88,7 @@ public:
      * @param gd The grid object to be printed
      * @return The output stream
     */
-    friend std::ostream& operator<<(std::ostream& os, const grid& gd);
+    friend std::ostream& operator<<(std::ostream& os, grid& gd);
 };
 
 }
