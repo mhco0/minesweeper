@@ -1,13 +1,13 @@
-#include <engine/cell.h>
+#include <engine/cell/cell.h>
 #include <assert.h>
 #include <iostream>
 
 using namespace minesweeper;
 
 void test_creation(){
-    cell c();
+    cell c;
     cell c2(cell_type::BOMB);
-    cell c3(cell_type::NUMERED);
+    cell c3(cell_type::NUMBERED);
 
     assert(c.clicked() == false);
     assert(c2.clicked() == false);
@@ -18,12 +18,12 @@ void test_creation(){
     assert(c3.marked() == false);
 
     assert(c.type() == cell_type::EMPTY);
-    assert(c2.type() == cell_type::NUMERED);
-    assert(c3.type() == cell_type::BOMB);
+    assert(c2.type() == cell_type::BOMB);
+    assert(c3.type() == cell_type::NUMBERED);
 }
 
 void test_click_and_mark(){
-    cell c();
+    cell c;
 
     c.click();
     assert(c.clicked() == true);
@@ -38,13 +38,13 @@ void test_click_and_mark(){
 }
 
 void test_type_and_bombs(){
-    cell c();
+    cell c;
 
     assert(c.type() == cell_type::EMPTY);
 
-    c.set_type(cell_type::NUMERED);
+    c.set_type(cell_type::NUMBERED);
 
-    assert(c.type() == cell_type::NUMERED);
+    assert(c.type() == cell_type::NUMBERED);
 
     c.set_bombs_next(4);
 

@@ -1,4 +1,4 @@
-#include <engine/cell.h>
+#include <engine/cell/cell.h>
 #include <algorithm>
 
 namespace minesweeper {
@@ -10,8 +10,7 @@ cell::cell(){
     this->m_type = cell_type::EMPTY;
 }
 
-cell::cell(const cell_type& ct){
-    this->cell();
+cell::cell(const cell_type& ct): cell(){
     this->m_type = ct;
 }
 
@@ -28,7 +27,7 @@ void cell::unmark(){
 }
 
 void cell::set_bombs_next(const int& bombs){
-    if(this->m_type == cell_type::NUMERED){
+    if(this->m_type == cell_type::NUMBERED){
         this->m_bombs_next = std::max(0, std::min(8, bombs));
     }
 }

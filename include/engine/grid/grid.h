@@ -29,7 +29,7 @@ struct grid_click_t {
 class grid {
 private:
     grid(const grid& other); ///< Copy constructor is private to not have to handle with memory leak
-    grid& operator=(); ///< Assign operator is private to not have to handle with memory leak
+    grid& operator=(const grid& rhs); ///< Assign operator is private to not have to handle with memory leak
 
 protected:
     int m_height;

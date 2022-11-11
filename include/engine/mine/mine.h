@@ -12,7 +12,7 @@ namespace minesweeper {
  * The dev difficult on the minesweeper isn't intend to be on the game. It's only used
  * on debug mode.
 */
-enum class mine_difficulty {
+enum class game_difficulty {
     easy = 0,
     medium, 
     hard, 
@@ -46,7 +46,7 @@ enum class game_state {
 */
 class mine {
 protected:
-    mine_difficulty m_difficulty;
+    game_difficulty m_difficulty;
     game_state m_state;
     grid* m_grid;
     int m_bombs;
@@ -68,7 +68,7 @@ public:
      * @brief A member function to set the difficult of the game
      * @param difficult The desired game difficulty
     */
-    void set_difficulty(const mine_difficulty& difficulty);
+    void set_difficulty(const game_difficulty& difficulty);
 
     /**
      * @brief A member function to starts the game

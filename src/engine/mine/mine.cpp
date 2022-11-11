@@ -1,10 +1,10 @@
-#include <engine/mine.h>
+#include <engine/mine/mine.h>
 
 namespace minesweeper {
 
 mine::mine(){
     this->m_grid = nullptr;
-    this->m_game_state = game_state::setup;
+    this->m_state = game_state::setup;
     this->set_difficulty(game_difficulty::easy);
 }
 
@@ -50,11 +50,11 @@ void mine::start(){
     this->m_grid = new grid(this->m_grid_width, this->m_grid_height);
     this->m_grid->set_bombs(this->m_bombs);
 
-    this->m_game_state = game_state::playing;
+    this->m_state = game_state::playing;
 }
 
 void mine::update(const grid_click_t& action){
-    if(this->m_game_state != game_state::playing) return;
+    if(this->m_state != game_state::playing) return;
 
     this->m_grid->process(action);
 
@@ -62,7 +62,7 @@ void mine::update(const grid_click_t& action){
 }
 
 game_state mine::get_game_state(){
-    return this->m_game_state;
+    return this->m_state;
 }
 
 }
