@@ -1,5 +1,6 @@
 #ifndef __CELL_H__
 #define __CELL_H__ 1
+#include <iostream>
 
 namespace minesweeper {
 
@@ -88,6 +89,14 @@ public:
      * @return The cell_type of the cell
     */
     cell_type type();
+
+    /**
+     * @brief A print function to print the cell
+     * @param os The output stream
+     * @param c The cell object to be printed
+     * @return The output stream
+    */
+    friend std::ostream& operator<<(std::ostream& os, cell& c);
 };
 
 }

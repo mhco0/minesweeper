@@ -59,11 +59,36 @@ void test_type_and_bombs(){
     assert(c.get_bombs_next() == 0);
 }
 
+void test_print(){
+    cell c;
+
+    c.click();
+
+    std::cout << c << std::endl;
+
+    c.set_type(cell_type::NUMBERED);
+
+    std::cout << c << std::endl;
+
+    c.set_bombs_next(4);
+
+    std::cout << c << std::endl;
+
+    c.set_type(cell_type::BOMB);
+
+    std::cout << c << std::endl;
+
+    c.mark();
+
+    std::cout << c << std::endl;
+}
+
 int main(void){
 
     test_creation();
     test_click_and_mark();
     test_type_and_bombs();
+    test_print();
 
     return 0;
 }

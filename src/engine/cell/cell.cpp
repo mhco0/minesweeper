@@ -52,4 +52,36 @@ cell_type cell::type(){
     return this->m_type;
 }
 
+std::ostream& operator<<(std::ostream& os, cell& c){
+    if(c.marked()){
+        return os << 'M';
+    }
+
+    if(!c.clicked()){
+        return os << '#'; 
+    }
+    
+    switch(c.type()){
+        case cell_type::BOMB:{
+            os << 'B';
+        }
+        break;
+        case cell_type::NUMBERED:{
+            os << (char) (c.get_bombs_next() + '0');
+        }
+        break;
+        case cell_type::EMPTY:{
+            os << ' ';
+        }
+        break;
+        default:{
+            os << 'U'; // unkown dehavier 
+        }
+        break;
+    }
+
+    return os;
 }
+
+}
+
