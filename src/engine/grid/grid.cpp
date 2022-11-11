@@ -216,3 +216,9 @@ void grid::process(const grid_click_t& click){
 }
 
 }
+
+std::ostream& operator<<(std::ostream& os, const minesweeper::grid& gd){
+
+    
+    return os;
+} 

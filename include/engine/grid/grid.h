@@ -1,6 +1,7 @@
 #ifndef __GRID_H__
 #define __GRID_H__ 1
 #include "../cell/cell.h"
+#include <iostream>
 
 namespace minesweeper {
 
@@ -78,6 +79,14 @@ public:
      * @param click A variable that holds the click information
     */
     void process(const grid_click_t& click);
+
+    /**
+     * @brief A print function to print the grid state
+     * @param os The output stream
+     * @param gd The grid object to be printed
+     * @return The output stream
+    */
+    friend std::ostream& operator<<(std::ostream& os, const grid& gd);
 };
 
 }
