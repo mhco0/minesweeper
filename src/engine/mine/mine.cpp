@@ -2,6 +2,33 @@
 
 namespace minesweeper {
 
+void mine::check_game_state(){
+    if(this->m_grid == nullptr){
+        return;
+    }
+
+    int clicked_cells = 0;
+    int grid_size = this->m_grid_height * this->m_grid_width;
+
+    for(int i = 0; i < this->m_grid_height; i++){
+        for(int j = 0; j < this->m_grid_width; j++){
+            size_t index = i * this->m_grid_width + j;
+            if(this->m_grid->m_cells[index].clicked()){
+                if(this->m_grid->m_cells[index].type() == cell_type::BOMB){
+                    this->m_state = game_state::defeat;
+                    return;
+                }
+
+                clicked_cells++;
+            }
+        }
+    }
+
+    if(clicked_cells == (grid_size - this->m_bombs)){
+        this->m_state = game_state::victory;
+    }
+}
+
 mine::mine(){
     this->m_grid = nullptr;
     this->m_state = game_state::setup;
@@ -40,6 +67,7 @@ void mine::set_difficulty(const game_difficulty& difficulty){
         }
         break;
     }
+    
 }
 
 void mine::start(){
@@ -58,11 +86,20 @@ void mine::update(const grid_click_t& action){
 
     this->m_grid->process(action);
 
-    // needs to handle the game state here
+    check_game_state();
+}
+
+bool mine::valid_move(const grid_click_t& action){
+    return !(action.x < 0 || action.x >= this->m_grid_width || action.y < 0 || action.y > this->m_grid_height);
 }
 
 game_state mine::get_game_state(){
     return this->m_state;
 }
+
+std::ostream& operator<<(std::ostream& os, mine& m){
+
+    return os << (*m.m_grid);
+} 
 
 }

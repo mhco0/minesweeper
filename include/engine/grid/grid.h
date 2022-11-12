@@ -6,6 +6,8 @@
 
 namespace minesweeper {
 
+class mine;
+
 /**
  * @struct grid_click_t
  * @brief A simple struct to represent a click on the grid
@@ -49,6 +51,7 @@ protected:
     */
     void expand(const int& x, const int& y);
 
+    friend class mine;
 public:
 
     /**

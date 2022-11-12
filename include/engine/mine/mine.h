@@ -1,6 +1,7 @@
 #ifndef __MINE_H__
 #define __MINE_H__ 1
 #include "../grid/grid.h"
+#include <iostream>
 
 namespace minesweeper {
 
@@ -52,6 +53,12 @@ protected:
     int m_bombs;
     int m_grid_width;
     int m_grid_height;
+
+    /**
+     * @brief Checks for current game state and updates it 
+    */
+    void check_game_state();
+
 public:
 
     /**
@@ -82,10 +89,24 @@ public:
     void update(const grid_click_t& action);
 
     /**
+     * @brief A member function to check if some click on the grid is valid.
+     * @return True if the click is valid and false otherwise
+    */ 
+    bool valid_move(const grid_click_t& action);
+
+    /**
      * @brief A member function that returns the current game state
      * @return The current game state
     */
     game_state get_game_state();
+
+    /**
+     * @brief A print function to print the mine state
+     * @param os The output stream
+     * @param gd The mine object to be printed
+     * @return The output stream
+    */
+    friend std::ostream& operator<<(std::ostream& os, mine& m);
 };
 
 }
