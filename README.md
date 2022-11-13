@@ -7,4 +7,4 @@ A simple minesweeper made in c++
 |:-----------:|:------------------:|:----:|:--------:|
 |     cell    | :heavy_check_mark: |      |          |
 |     grid    | :heavy_check_mark: |      |          |
-|     mine    |                    |      |  :hole:  |
+|     mine    | :heavy_check_mark: |      |          |

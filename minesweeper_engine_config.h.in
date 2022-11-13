@@ -1,2 +1,4 @@
 #define minesweeper_engine_MAJOR_VERSION "@minesweeper_engine_MAJOR_VERSION@"
 #define minesweeper_engine_MINOR_VERSION "@minesweeper_engine_MINOR_VERSION@"
+
+#cmakedefine USE_GUI

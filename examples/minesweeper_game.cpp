@@ -1,9 +1,46 @@
 #include <minesweeper_engine.h>
+#include <minesweeper_engine_config.h>
 #include <iostream>
-#include <cstdlib>
+#include <cstdlib> 
+
+
+#ifdef USE_GUI
+#include <SFML/Window.hpp>
+#endif
 
 using namespace std;
 using namespace minesweeper;
+
+#ifdef USE_GUI
+
+int main(void){
+
+    sf::Window window;
+    // Create window
+    window.create(sf::VideoMode(sf::Vector2u(800u, 600u)), "Minesweeper");
+
+    // Limit the framerate to 60 frames per second (this step is optional)
+    window.setFramerateLimit(60);
+    // The main loop - ends as soon as the window is closed
+    while (window.isOpen()){
+        // Event processing
+        sf::Event event;
+        while (window.pollEvent(event)){
+            // Request for closing the window
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        // Activate the window for OpenGL rendering
+        window.setActive();
+        // OpenGL drawing commands go here...
+        // End the current frame and display its contents on screen
+        window.clear();
+        window.display();
+    }
+}
+
+#else
 
 int main(void){
     mine game;
@@ -47,6 +84,9 @@ int main(void){
 
             bool valid_move = true;
 
+            cout << "Insert a position on the grid in the form (x-index) (y-index) [(M)ark or (C)lick]." << endl;
+            cout << "The indexes are 0 based" << endl;
+
             do{
                 if(!valid_move){
                     cout << "Insert a valid position on the grid." << endl;
@@ -78,3 +118,5 @@ int main(void){
     
     return 0;
 }
+
+#endif
