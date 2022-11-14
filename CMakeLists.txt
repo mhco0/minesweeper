@@ -5,7 +5,7 @@ project(minesweeper_engine VERSION 0.1)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-option(USE_GUI "Configures if the project wil" OFF)
+option(USE_GUI "Configures if the project will use the gui or not" OFF)
 
 configure_file(minesweeper_engine_config.h.in minesweeper_engine_config.h)
 

@@ -10,5 +10,5 @@ target_include_directories(minesweeper_game PUBLIC
 target_link_libraries(minesweeper_game PUBLIC minesweeper_engine_mine)
 
 if(USE_GUI)
-    target_link_libraries(minesweeper_game PUBLIC sfml-window)
+    target_link_libraries(minesweeper_game PUBLIC minesweeper_engine_mine sfml-window sfml-graphics)
 endif()

@@ -2,6 +2,8 @@
 #define __MINE_H__ 1
 #include "../grid/grid.h"
 #include <iostream>
+#include <vector>
+#include <string>
 
 namespace minesweeper {
 
@@ -99,6 +101,12 @@ public:
      * @return The current game state
     */
     game_state get_game_state();
+
+    /**
+     * @brief A member function that returns the current game grid state
+     * @return A matrix of characters with the current game state
+    */
+    std::vector<std::vector<char>> get_grid_as_string();
 
     /**
      * @brief A print function to print the mine state

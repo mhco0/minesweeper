@@ -1,4 +1,5 @@
 #include <engine/mine/mine.h>
+#include <iostream>
 
 namespace minesweeper {
 
@@ -78,11 +79,10 @@ void mine::start(){
     this->m_grid = new grid(this->m_grid_width, this->m_grid_height);
     this->m_grid->set_bombs(this->m_bombs);
 
-    this->m_state = game_state::playing;
 }
 
 void mine::update(const grid_click_t& action){
-    if(this->m_state != game_state::playing) return;
+    this->m_state = game_state::playing;
 
     this->m_grid->process(action);
 
@@ -95,6 +95,50 @@ bool mine::valid_move(const grid_click_t& action){
 
 game_state mine::get_game_state(){
     return this->m_state;
+}
+
+std::vector<std::vector<char>> mine::get_grid_as_string(){
+    if(this->m_grid == nullptr){
+            return {};
+        }
+
+        std::vector<std::vector<char>> ret(this->m_grid_height, std::vector<char>(this->m_grid_height, '#')); 
+        
+        for(int i = 0; i < this->m_grid_height; i++) {
+            for(int j = 0; j < this->m_grid_width; j++) {
+                size_t index = i * this->m_grid_width + j;
+
+                if(this->m_grid->m_cells[index].marked()){
+                    ret[i][j] = 'M';
+                    continue;
+                }
+
+                if(!this->m_grid->m_cells[index].clicked()){
+                    ret[i][j] = '#'; 
+                }else{
+                    switch(this->m_grid->m_cells[index].type()){
+                        case cell_type::BOMB:{
+                            ret[i][j] = 'B';
+                        }
+                        break;
+                        case cell_type::NUMBERED:{
+                            ret[i][j] = (char) (this->m_grid->m_cells[index].get_bombs_next() + '0');
+                        }
+                        break;
+                        case cell_type::EMPTY:{
+                            ret[i][j] = ' ';
+                        }
+                        break;
+                        default:{
+                            ret[i][j] = 'U'; // unkown dehavier 
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        return ret;
 }
 
 std::ostream& operator<<(std::ostream& os, mine& m){

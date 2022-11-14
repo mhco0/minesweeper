@@ -1,4 +1,5 @@
 #include <engine/mine/mine.h>
+
 using namespace minesweeper;
 
 void test_game(){
@@ -9,6 +10,8 @@ void test_game(){
     game.start();
 
     game.update(click);
+
+    auto grid = game.get_grid_as_string();
 }
 
 int main(void){
