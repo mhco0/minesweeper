@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19)
 
-project(minesweeper_engine VERSION 0.1)
+project(minesweeper_engine VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED true)

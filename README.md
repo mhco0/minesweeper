@@ -6,9 +6,21 @@ A simple minesweeper made in c++
 This is a simple minesweeper engine make to custom use. The user can easy set the difficulty of the game and handle inputs from the user. 
 
 
+# Minesweeper game example
+
+This project shows the use of the engine with the classic minesweeper game implemetation. You can view the game code on `examples/minesweeper_game.cpp`. Here are some pictures of the current game state:
+
+![easy setup](asserts/easy_setup.png)
+![medium setup](asserts/medium_setup.png)
+![hard setup](asserts/hard_setup.png)
+
+The user can choose the game difficulty, place marks on bombs spots and click to acctually play the game:
+
+![victory example](asserts/victory.png)
+
 # Build and Run
 
-This project depends on [CMake] (https://cmake.org/) to build and run. The basic set to build is the following:
+This project depends on [CMake](https://cmake.org/) to build and run. The basic set to build is the following:
 
 ```console
 foo@bar:~$ mkdir build && cd build
@@ -44,3 +56,8 @@ This project supports a minesweeper game using [SFML](https://github.com/SFML/SF
 foo@bar:~$ cmake .. -DUSE_GUI=ON
 ```
 
+This command tells cmake to include the SFML library and the targets to run with the GUI.
+
+# Know Issues
+
+When you run the example project using the GUI option, the game will not open because it's missing some dlls. To handle this problem, make sure to add the dlls from `SFML/build/bin` folder into the executable folder of the game.
