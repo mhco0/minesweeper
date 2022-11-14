@@ -10,13 +10,10 @@ This is a simple minesweeper engine make to custom use. The user can easy set th
 
 This project shows the use of the engine with the classic minesweeper game implemetation. You can view the game code on `examples/minesweeper_game.cpp`. Here are some pictures of the current game state:
 
-![easy setup](asserts/easy_setup.png)
-![medium setup](asserts/medium_setup.png)
-![hard setup](asserts/hard_setup.png)
+![easy setup](asserts/easy_setup.png) ![medium setup](asserts/medium_setup.png)
+![hard setup](asserts/hard_setup.png) ![victory example](asserts/victory.png)
 
-The user can choose the game difficulty, place marks on bombs spots and click to acctually play the game:
-
-![victory example](asserts/victory.png)
+The user can choose the game difficulty, place marks on bombs spots and click to acctually play the game.
 
 # Build and Run
 
