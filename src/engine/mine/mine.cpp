@@ -93,6 +93,10 @@ bool mine::valid_move(const grid_click_t& action){
     return !(action.x < 0 || action.x >= this->m_grid_width || action.y < 0 || action.y > this->m_grid_height);
 }
 
+void mine::process_end_game(){
+    this->m_state = game_state::setup;
+}
+
 game_state mine::get_game_state(){
     return this->m_state;
 }

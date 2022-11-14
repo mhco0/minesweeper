@@ -16,6 +16,8 @@ using namespace minesweeper;
 #define GRID_CELL_0_TEXTURE_PATH "../asserts/grid-cell-0.png"
 #define GRID_CELL_1_TEXTURE_PATH "../asserts/grid-cell-1.png"
 #define MARK_TEXTUTE_PATH "../asserts/mark.png"
+#define VICTORY_TEXT "Congratilations! You win."
+#define DEFEAT_TEXT "Sorry! You lose. Try again."
 #define WINDOW_TITTLE "Minesweeper"
 #define WINDOW_WIDTH 576u
 #define WINDOW_HEIGHT 676u
@@ -28,7 +30,7 @@ sf::RenderWindow window;
 sf::Font font;
 sf::Texture bomb_texture, grid_cell_0_texture, grid_cell_1_texture, empty_cell_texture, mark_texture;
 sf::Sprite bomb_sprite, grid_cell_0_sprite, grid_cell_1_sprite, empty_cell_sprite, mark_sprite;
-sf::Text choose_text, easy_text, medium_text, hard_text, number_text;
+sf::Text choose_text, easy_text, medium_text, hard_text, number_text, result_text;
 mine game;
 
 /**
@@ -80,6 +82,7 @@ void load_texts(){
     medium_text.setFont(font);
     hard_text.setFont(font);
     number_text.setFont(font);
+    result_text.setFont(font);
 
     choose_text.setString("Difficulty");
     easy_text.setString("easy");
@@ -131,6 +134,26 @@ void draw_game(){
     window.clear();
 
     // set texts
+
+    /*switch(game.get_difficulty()){
+        case game_difficulty::easy:{
+            number_text.setScale(sf::Vector2f(1.0, 1.0));
+        }
+        break;
+        case game_difficulty::medium:{
+            number_text.setScale(sf::Vector2f(0.75, 0.75));
+        }
+        break;
+        case game_difficulty::hard:{
+            number_text.setScale(sf::Vector2f(0.5, 0.5));
+        }
+        break;
+        default:{
+            number_text.setScale(sf::Vector2f(1.0, 1.0));
+        }
+        break;
+    }*/
+
     choose_text.setPosition(sf::Vector2f(0, 0));
 
     float container_width = WINDOW_WIDTH / 3.0; 
@@ -156,9 +179,8 @@ void draw_game(){
     window.draw(hard_text);
 
     // draw game  
-    vector<vector<char>> game_state = game.get_grid_as_string();
 
-    if(game_state.size() == 0) return;
+    vector<vector<char>> game_state = game.get_grid_as_string();
 
     float target_sprite_width = WINDOW_WIDTH / (float) game_state.size();
     float target_sprite_height = (WINDOW_HEIGHT - TOPPER_HEIGHT) / (float) game_state[0].size();
@@ -235,6 +257,17 @@ void draw_game(){
             cell_type_0 = !cell_type_0;
         }
     }
+
+    if(game.get_game_state() == game_state::victory || game.get_game_state() == game_state::defeat){
+        if((game.get_game_state() == game_state::victory)) result_text.setString(VICTORY_TEXT);
+        else result_text.setString(DEFEAT_TEXT);
+
+        sf::FloatRect result_text_gb = result_text.getGlobalBounds();
+
+        result_text.setPosition(sf::Vector2f((WINDOW_WIDTH / 2) - (result_text_gb.width / 2), (result_text_gb.height / 2)));
+
+        window.draw(result_text);
+    }
 }
 
 int main(void){
@@ -244,7 +277,7 @@ int main(void){
     }
 
     load_texts();
-    load_sprites();
+    load_sprites(); 
 
     // Create window
     window.create(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), WINDOW_TITTLE);
@@ -260,6 +293,11 @@ int main(void){
         while (window.pollEvent(event)){
             
             if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
+                if(game.get_game_state() == game_state::victory || game.get_game_state() == game_state::defeat){
+                    game.process_end_game();
+                    game.start();
+                }
+                
                 sf::Vector2i pos = sf::Mouse::getPosition(window);
                 sf::Vector2f posf(pos.x, pos.y);
 

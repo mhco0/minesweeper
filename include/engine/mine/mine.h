@@ -102,6 +102,12 @@ public:
     */
     game_state get_game_state();
 
+
+    /**
+     * @brief A member function to process the end of a game and call a new one
+    */ 
+    void process_end_game();
+
     /**
      * @brief A member function that returns the current game grid state
      * @return A matrix of characters with the current game state
